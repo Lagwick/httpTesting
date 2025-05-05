@@ -98,7 +98,9 @@ func TestCafeSearch(t *testing.T) {
 	}
 
 	for _, tc := range requests {
-		req := httptest.NewRequest("GET", "/cafe?city=moscow&search="+tc.search, nil)
+		url := "/cafe?city=moscow&search=" + tc.search
+
+		req := httptest.NewRequest("GET", url, nil)
 		resp := httptest.NewRecorder()
 
 		handler.ServeHTTP(resp, req)
@@ -115,6 +117,7 @@ func TestCafeSearch(t *testing.T) {
 		assert.Equal(t, tc.wantCount, len(cafes))
 
 		searchLower := strings.ToLower(tc.search)
+
 		for _, cafe := range cafes {
 			assert.Contains(t, strings.ToLower(cafe), searchLower)
 		}
